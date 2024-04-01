@@ -36,7 +36,7 @@ namespace SchoolLibrary.Infrastructure.Common
 
         public async Task<int> SaveChangesAsync()
         {
-            return await SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
     }
 }
