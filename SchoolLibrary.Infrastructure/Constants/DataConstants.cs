@@ -14,7 +14,7 @@
         public const int MaxLengthBookPositionInLibrary = 3;
 
         public const int BookDescriptionMinLength = 10;
-        public const int BookDescriptionMaxLength = 100;
+        public const int BookDescriptionMaxLength = 300;
 
         public const int AuthorNameMinLenght = 3;
         public const int AuthorNameMaxLenght = 50;

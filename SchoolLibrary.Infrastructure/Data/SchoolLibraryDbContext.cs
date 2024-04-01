@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using SchoolLibrary.Infrastructure.Data.Models;
+using SchoolLibrary.Infrastructure.Data.SeedDb;
 
 namespace SchoolLibrary.Infrastructure.Data
 {
@@ -9,21 +10,14 @@ namespace SchoolLibrary.Infrastructure.Data
         public SchoolLibraryDbContext(DbContextOptions<SchoolLibraryDbContext> options)
             : base(options)
         {
+
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.Entity<Book>()
-                .HasOne(b => b.Genre)
-                .WithMany(g => g.Books)
-                .HasForeignKey(b => b.GenreId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.Entity<Book>()
-              .HasOne(b => b.Author)
-              .WithMany(g => g.Books)
-              .HasForeignKey(b => b.AuthorId)
-              .OnDelete(DeleteBehavior.Restrict);
-
+            builder.ApplyConfiguration(new UserConfiguration());
+            builder.ApplyConfiguration(new AuthorConfiguration());
+            builder.ApplyConfiguration(new BookConfiguration());
+            builder.ApplyConfiguration(new GenreConfiguration());
             base.OnModelCreating(builder);
         }
 

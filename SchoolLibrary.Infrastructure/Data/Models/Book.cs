@@ -17,7 +17,9 @@ namespace SchoolLibrary.Infrastructure.Data.Models
         [MaxLength(BookTitleMaxLenght)]
         public string BookTitle { get; set; } = string.Empty;
 
-
+        [Required]
+        [Comment("Book image URL")]
+        public string ImageUrl { get; set; } = string.Empty;
         [Required]
         [Comment("Book pages number")]
         [Range(BookPagesMinCount, BookPagesMaxCount)]
