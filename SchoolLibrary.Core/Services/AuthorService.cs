@@ -13,9 +13,16 @@ namespace SchoolLibrary.Core.Services
             repository = _repository;
         }
 
-        public Task CreateAsync(string userId, string userName)
+        public async Task CreateAsync(string userId, string userName)
         {
-            throw new NotImplementedException();
+            await repository.AddAsync(new Author
+            {
+                UserId = userId,
+                AuthorName = userName,
+            });
+
+            await repository.SaveChangesAsync();
+
         }
 
         public async Task<bool> ExistByIdAsync(string userId)
@@ -24,14 +31,16 @@ namespace SchoolLibrary.Core.Services
                 .AnyAsync(a => a.UserId == userId);
         }
 
-        public Task<bool> UserHasTakesAsync(string userId)
+        public async Task<bool> UserHasTakesAsync(string userId)
         {
-            throw new NotImplementedException();
+            return await repository.AllReadOnly<Book>()
+                .AnyAsync(b => b.TakerId == userId);
         }
 
-        public Task UserWithThisNameExistAsync(string username)
+        public async Task<bool> UserWithThisNameExistAsync(string username)
         {
-
+            return await repository.AllReadOnly<Author>()
+                .AnyAsync(a => a.AuthorName == username);
         }
     }
 }
