@@ -6,6 +6,7 @@ using static SchoolLibrary.Infrastructure.Constants.DataConstants;
 
 namespace SchoolLibrary.Infrastructure.Data.Models
 {
+    [Index(nameof(AuthorName), IsUnique = true)]
     [Comment("Author")]
     public class Author
     {
