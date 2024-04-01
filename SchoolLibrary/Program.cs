@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolLibrary.Core.Contracts;
+using SchoolLibrary.Core.Services;
 using SchoolLibrary.Infrastructure.Common;
 using SchoolLibrary.Infrastructure.Data;
 
@@ -10,6 +12,7 @@ builder.Services.AddDbContext<SchoolLibraryDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<IAuthorService, AuthorService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
