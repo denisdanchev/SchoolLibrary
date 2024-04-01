@@ -35,7 +35,7 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await authorService.UserWithThisNameExistAsync(User.Id()))
+            if (await authorService.UserWithThisNameExistAsync(model.AuthorName))
             {
                 ModelState.AddModelError(nameof(model.AuthorName), AuthroNameExists);
             }
