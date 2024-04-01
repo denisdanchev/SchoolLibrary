@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SchoolLibrary.Core.Models.Home;
 using SchoolLibrary.Models;
 using System.Diagnostics;
 
@@ -15,7 +16,8 @@ namespace SchoolLibrary.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var model = new IndexViewModel();
+            return View(model);
         }
 
 
