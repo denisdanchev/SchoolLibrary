@@ -10,9 +10,4 @@
     <ProjectReference Include="..\SchoolLibrary.Infrastructure\SchoolLibrary.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Contracts\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
-
 </Project>
