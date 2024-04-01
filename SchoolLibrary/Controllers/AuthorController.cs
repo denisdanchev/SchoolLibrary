@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using SchoolLibrary.Core.Contracts;
 using SchoolLibrary.Core.Models.Author;
 using SchoolLibrary.Extension;
-
+using static SchoolLibrary.Core.Constants.MessageConstants;
 namespace SchoolLibrary.Controllers
 {
-    [Authorize]
     public class AuthorController : Controller
     {
         private readonly IAuthorService authorService;
@@ -27,9 +25,33 @@ namespace SchoolLibrary.Controllers
             var model = new BeAuthorFormModel();
             return View(model);
         }
+
         [HttpPost]
         public async Task<IActionResult> BeAuthor(BeAuthorFormModel model)
         {
+
+            if (await authorService.ExistByIdAsync(User.Id()))
+            {
+                return BadRequest();
+            }
+
+            if (await authorService.UserWithThisNameExistAsync(User.Id()))
+            {
+                ModelState.AddModelError(nameof(model.AuthorName), AuthroNameExists);
+            }
+
+            if (await authorService.UserHasTakesAsync(User.Id()))
+            {
+                ModelState.AddModelError("Error",HasTakes);
+            }
+
+            if (ModelState.IsValid == false)
+            { 
+                return View(model);
+            }
+
+            await authorService.CreateAsync(User.Id(), model.AuthorName);
+
             return RedirectToAction(nameof(BookController.All), "Book");
         }
     }

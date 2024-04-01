@@ -42,10 +42,5 @@ namespace SchoolLibrary.Core.Services
             return await repository.AllReadOnly<Author>()
                 .AnyAsync(a => a.AuthorName == username);
         }
-
-        Task IAuthorService.UserWithThisNameExistAsync(string username)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

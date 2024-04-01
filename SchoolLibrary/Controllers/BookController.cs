@@ -4,7 +4,6 @@ using SchoolLibrary.Core.Models.Book;
 
 namespace SchoolLibrary.Controllers
 {
-    [Authorize]
     public class BookController : Controller
     {
         [AllowAnonymous]
