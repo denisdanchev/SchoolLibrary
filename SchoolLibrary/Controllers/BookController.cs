@@ -37,7 +37,18 @@ namespace SchoolLibrary.Controllers
         [HttpGet]
         public async Task<IActionResult> Mine()
         {
-            var model = new AllBooksQueryModel();
+            var userId = User.Id();
+            IEnumerable<BookServiceModel> model;
+
+            if (await authorService.ExistByIdAsync(userId))
+            {
+                int authorId = await authorService.GetAuthorIdAsync(userId) ?? 0;
+                model = await bookService.AllBooksByAuthorId(authorId);
+            }
+            else
+            {
+                model = await bookService.AllBooksByUserId(userId);
+            }
             return View(model);
         }
 

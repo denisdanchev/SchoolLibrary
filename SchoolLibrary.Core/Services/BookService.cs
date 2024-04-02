@@ -13,14 +13,14 @@ namespace SchoolLibrary.Core.Services
         private readonly IRepository repository;
         public BookService(IRepository _repository)
         {
-            repository = _repository;   
+            repository = _repository;
         }
 
         public async Task<BookQueryServiceModel> AllAsync(
             string? genre = null,
-            string? searchedTerm = null, 
+            string? searchedTerm = null,
             BookSorting sorting = BookSorting.Newest,
-            int currentPage = 1, 
+            int currentPage = 1,
             int booksPerPage = 1
             )
         {
@@ -54,24 +54,32 @@ namespace SchoolLibrary.Core.Services
             var books = await booksToShow
                 .Skip((currentPage - 1) * booksPerPage)
                 .Take(booksPerPage)
-                .Select(b => new BookServiceModel()
-                {
-                    Id = b.Id,
-                    Title = b.BookTitle,
-                    ImageUrl = b.ImageUrl,
-                    Pages = b.BookPages,
-                    PositionInLibrary = b.PositionInLibrary,
-                    IsTaked = b.TakerId != null,
-                })
+                .ProjectToBookServiceModel()
                 .ToListAsync();
 
             int totalBooks = await booksToShow.CountAsync();
-            
+
             return new BookQueryServiceModel()
             {
                 Books = books,
                 TotalBooksCount = totalBooks
             };
+        }
+
+        public async Task<IEnumerable<BookServiceModel>> AllBooksByAuthorId(int authorId)
+        {
+            return await repository.AllReadOnly<Book>()
+                .Where(b => b.AuthorId == authorId)
+                .ProjectToBookServiceModel()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<BookServiceModel>> AllBooksByUserId(string userId)
+        {
+            return await repository.AllReadOnly<Book>()
+                  .Where(b => b.TakerId == userId)
+                  .ProjectToBookServiceModel()
+                  .ToListAsync();
         }
 
         public async Task<IEnumerable<BookGenreServiceModel>> AllGenresAsync()
