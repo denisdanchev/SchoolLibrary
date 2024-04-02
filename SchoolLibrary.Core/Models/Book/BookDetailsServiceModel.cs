@@ -8,6 +8,8 @@ namespace SchoolLibrary.Core.Models.Book
 
         public string Genre { get; set; } = null!;
 
+        public int BookPages { get; set; } 
+
         public AuthorServiceModel Author { get; set; } = null!;
     }
 }

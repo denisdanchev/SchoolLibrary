@@ -144,6 +144,23 @@ namespace SchoolLibrary.Core.Services
 
         }
 
+        public async Task EditAsync(int bookId, BookFormModel model)
+        {
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null)
+            {
+                book.PositionInLibrary = model.PositionInLibrary;
+                book.GenreId = model.GenreId;
+                book.Description = model.Description;
+                book.ImageUrl = model.ImageUrl;
+                book.BookTitle = model.Title;
+                book.BookPages = model.BookPages;
+
+                await repository.SaveChangesAsync(); 
+            }
+        }
+
         public async Task<bool> ExistsAsync(int id)
         {
             return await repository.AllReadOnly<Book>()
@@ -154,6 +171,33 @@ namespace SchoolLibrary.Core.Services
         {
             return repository.AllReadOnly<Genre>()
                 .AnyAsync(g => g.Id == genreId);
+        }
+
+        public async Task<BookFormModel?> GetBookFormModelByIdAsync(int id)
+        {
+            var book = await repository.AllReadOnly<Book>()
+                .Where(b => b.Id == id)
+                .Select(b => new BookFormModel()
+                {
+                    PositionInLibrary = b.PositionInLibrary,
+                    GenreId = b.GenreId,
+                    Description = b.Description,
+                    ImageUrl = b.ImageUrl,
+                    Title = b.BookTitle,
+                    BookPages = b.BookPages
+                })
+                .FirstOrDefaultAsync();
+            if (book != null)
+            {
+                book.Genres = await AllGenresAsync();
+            }
+            return book;
+        }
+
+        public async Task<bool> HasAuthorWithIdAsync(int bookId, string userId)
+        {
+            return await repository.AllReadOnly<Book>()
+                .AnyAsync(b => b.Id == bookId && b.Author.UserId == userId);
         }
     }
 }

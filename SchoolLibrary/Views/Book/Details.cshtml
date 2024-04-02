@@ -18,6 +18,7 @@
             <p>Located in: <b>@Model.PositionInLibrary</b></p>
             <p>@Model.Description</p>
             <p>Genre: <b>@Model.Genre</b></p>
+            <p>Pages count: @Model.Pages</p>
             <p><i>(@(Model.IsTaked ? "Taked" : "Not Taken"))</i></p>
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)

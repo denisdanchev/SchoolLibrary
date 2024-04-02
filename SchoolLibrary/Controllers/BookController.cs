@@ -60,7 +60,6 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-
             var model = await bookService.BookDetailsByIdAsync(id);
             return View(model);
         }
@@ -90,7 +89,7 @@ namespace SchoolLibrary.Controllers
 
             if (await bookService.GenreExistAsync(model.GenreId) == false)
             {
-                ModelState.AddModelError(nameof(model.GenreId), "");
+                ModelState.AddModelError(nameof(model.GenreId), "Genre does not exist");
             }
 
             if (ModelState.IsValid == false)
@@ -110,13 +109,46 @@ namespace SchoolLibrary.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var model = new BookFormModel();
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            var model = await bookService.GetBookFormModelByIdAsync(id);
             return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Edit(int id,BookFormModel model)
-        { 
-            return RedirectToAction(nameof(Details), new { id= 1});
+        {
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            if (await bookService.GenreExistAsync(model.GenreId) == false)
+            {
+                ModelState.AddModelError(nameof(model.GenreId), "Genre does not exist");
+            }
+            if (ModelState.IsValid == false)
+            {
+                model.Genres = await bookService.AllGenresAsync();
+
+                return View(model);
+            }
+            await bookService.EditAsync(id, model);
+
+            return RedirectToAction(nameof(Details), new { id});
+
         }
 
         [HttpGet]

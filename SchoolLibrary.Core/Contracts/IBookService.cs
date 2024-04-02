@@ -26,5 +26,11 @@ namespace SchoolLibrary.Core.Contracts
         Task<bool> ExistsAsync(int id);
         Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id);
 
+        Task EditAsync(int bookId, BookFormModel model);
+
+        Task<bool> HasAuthorWithIdAsync(int bookId, string userId);
+
+        Task<BookFormModel?> GetBookFormModelByIdAsync(int id);
+
     }
 }
