@@ -55,7 +55,13 @@ namespace SchoolLibrary.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var model = new BookDetailsViewModel();
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+
+            var model = await bookService.BookDetailsByIdAsync(id);
             return View(model);
         }
         [HttpGet]

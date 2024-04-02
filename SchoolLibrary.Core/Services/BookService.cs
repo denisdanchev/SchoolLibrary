@@ -101,6 +101,28 @@ namespace SchoolLibrary.Core.Services
                 .ToListAsync();
         }
 
+        public async Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id)
+        {
+            return await repository.AllReadOnly<Book>()
+                .Where(b => b.Id == id)
+                .Select(b => new BookDetailsServiceModel()
+                {
+                    Id = b.Id,
+                    PositionInLibrary = b.PositionInLibrary,
+                    Author = new Models.Author.AuthorServiceModel()
+                    {
+                        Email = b.Author.User.Email,
+                        AuthorName = b.Author.AuthorName
+                    },
+                    Genre = b.Genre.GenreName,
+                    Description = b.Description,
+                    ImageUrl = b.ImageUrl,
+                    Title = b.TakerId,
+                    Pages = b.BookPages
+                })
+                .FirstAsync();
+        }
+
         public async Task<int> CreateAsyc(BookFormModel model, int authorId)
         {
             Book book = new Book()
@@ -120,6 +142,12 @@ namespace SchoolLibrary.Core.Services
 
             return book.Id;
 
+        }
+
+        public async Task<bool> ExistsAsync(int id)
+        {
+            return await repository.AllReadOnly<Book>()
+                .AnyAsync(b => b.Id == id);
         }
 
         public Task<bool> GenreExistAsync(int genreId)

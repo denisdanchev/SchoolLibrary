@@ -23,6 +23,8 @@ namespace SchoolLibrary.Core.Contracts
         Task<IEnumerable<BookServiceModel>> AllBooksByAuthorId(int authorId);
         Task<IEnumerable<BookServiceModel>> AllBooksByUserId(string userId);
 
+        Task<bool> ExistsAsync(int id);
+        Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id);
 
     }
 }
