@@ -19,10 +19,20 @@ namespace SchoolLibrary.Controllers
         }
         [AllowAnonymous]
         [HttpGet]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All([FromQuery]AllBooksQueryModel query)
         {
-            var model = new AllBooksQueryModel();
-            return View(model);
+            var model = await bookService.AllAsync(
+                query.Genre,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurentPage,
+                query.BooksPerPage);
+
+            query.TotalBooksCount = model.TotalBooksCount;
+            query.Books = model.Books;
+            query.Genres = await bookService.AllGenresNamesAsync();
+
+            return View(query);
         }
         [HttpGet]
         public async Task<IActionResult> Mine()

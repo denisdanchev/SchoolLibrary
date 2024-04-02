@@ -1,4 +1,5 @@
-﻿using SchoolLibrary.Core.Models.Book;
+﻿using SchoolLibrary.Core.Enumerations;
+using SchoolLibrary.Core.Models.Book;
 
 namespace SchoolLibrary.Core.Contracts
 {
@@ -9,5 +10,14 @@ namespace SchoolLibrary.Core.Contracts
         Task<bool> GenreExistAsync(int genreId);
 
         Task<int> CreateAsyc(BookFormModel model, int authorId);
+
+        Task<BookQueryServiceModel> AllAsync(
+            string? genre = null,
+            string? searchedTerm = null,
+            BookSorting sorting = BookSorting.Newest,
+            int currentPage = 1,
+            int booksPerPage = 1);
+
+        Task<IEnumerable<string>> AllGenresNamesAsync();
     }
 }

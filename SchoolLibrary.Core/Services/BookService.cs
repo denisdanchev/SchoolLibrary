@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SchoolLibrary.Core.Contracts;
+using SchoolLibrary.Core.Enumerations;
 using SchoolLibrary.Core.Models.Book;
 using SchoolLibrary.Infrastructure.Common;
 using SchoolLibrary.Infrastructure.Data.Models;
+using System.Linq;
 
 namespace SchoolLibrary.Core.Services
 {
@@ -12,6 +14,64 @@ namespace SchoolLibrary.Core.Services
         public BookService(IRepository _repository)
         {
             repository = _repository;   
+        }
+
+        public async Task<BookQueryServiceModel> AllAsync(
+            string? genre = null,
+            string? searchedTerm = null, 
+            BookSorting sorting = BookSorting.Newest,
+            int currentPage = 1, 
+            int booksPerPage = 1
+            )
+        {
+            var booksToShow = repository.AllReadOnly<Book>();
+
+            if (genre != null)
+            {
+                booksToShow = booksToShow.Where(b => b.Genre.GenreName == genre);
+            }
+
+            if (searchedTerm != null)
+            {
+                string normalizedSearchedTerm = searchedTerm.ToLower();
+                booksToShow = booksToShow
+                    .Where(b => (b.BookTitle.ToLower().Contains(normalizedSearchedTerm) ||
+                                 b.PositionInLibrary.ToLower().Contains(normalizedSearchedTerm) ||
+                                 b.Description.ToLower().Contains(normalizedSearchedTerm)));
+            }
+
+            booksToShow = sorting switch
+            {
+                BookSorting.Title => booksToShow
+                .OrderBy(b => b.BookTitle),
+                BookSorting.NotTaked => booksToShow
+                    .OrderBy(b => b.TakerId != null)
+                    .ThenByDescending(b => b.Id),
+                _ => booksToShow
+                    .OrderByDescending(b => b.Id)
+            };
+
+            var books = await booksToShow
+                .Skip((currentPage - 1) * booksPerPage)
+                .Take(booksPerPage)
+                .Select(b => new BookServiceModel()
+                {
+                    Id = b.Id,
+                    Title = b.BookTitle,
+                    ImageUrl = b.ImageUrl,
+                    Pages = b.BookPages,
+                    PositionInLibrary = b.PositionInLibrary,
+                    IsTaked = b.TakerId != null,
+                })
+                .ToListAsync();
+
+            int totalBooks = await booksToShow.CountAsync();
+            
+            return new BookQueryServiceModel()
+            {
+                Books = books,
+                TotalBooksCount = totalBooks
+            };
         }
 
         public async Task<IEnumerable<BookGenreServiceModel>> AllGenresAsync()
@@ -25,6 +85,14 @@ namespace SchoolLibrary.Core.Services
                .ToListAsync();
         }
 
+        public async Task<IEnumerable<string>> AllGenresNamesAsync()
+        {
+            return await repository.AllReadOnly<Genre>()
+                .Select(g => g.GenreName)
+                .Distinct()
+                .ToListAsync();
+        }
+
         public async Task<int> CreateAsyc(BookFormModel model, int authorId)
         {
             Book book = new Book()
@@ -32,10 +100,11 @@ namespace SchoolLibrary.Core.Services
                 BookTitle = model.Title,
                 ImageUrl = model.ImageUrl,
                 BookPages = model.BookPages,
-                PositionInLibrary =model.PositionInLibrary,
+                PositionInLibrary = model.PositionInLibrary,
                 Description = model.Description,
                 GenreId = model.GenreId,
                 AuthorId = authorId,
+                TakerId = null
             };
 
             await repository.AddAsync(book);

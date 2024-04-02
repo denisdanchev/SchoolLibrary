@@ -1,0 +1,38 @@
+﻿@model BookServiceModel
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Book Image">
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Position in bookshelf: <b>@Model.PositionInLibrary</b></h6>
+            <h6>Pages: <b>@Model.Pages</b></h6>
+            <h6>(@(Model.IsTaked ? "Taked" : "Not Taked"))</h6>
+            <br />
+            <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
+               class="btn btn-success">Details</a>
+            @if (this.User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
+                   class="btn btn-warning">Edit</a>
+                <a asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id"
+                   class="btn btn-danger">Delete</a>
+                <p></p>
+                @if (!Model.IsTaked)
+                {
+                    <form class="input-group-sm" asp-controller="Book"
+                          asp-action="GetABook" asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Get" />
+                    </form>
+                }
+                else
+                {
+                    <form asp-controller="Book" asp-action="TakeBackTheBook"
+                          asp-route-id="@Model.Id" method="post">
+                        <input class="btn btn-primary" type="submit" value="Take back" />
+                    </form>
+                }
+            }
+        </div>
+    </div>
+</div>
