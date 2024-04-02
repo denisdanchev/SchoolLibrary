@@ -154,12 +154,42 @@ namespace SchoolLibrary.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = new BookDetailsViewModel();
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            var book = await bookService.BookDetailsByIdAsync(id);
+
+            var model = new BookDetailsViewModel()
+            {
+                Id = id,
+                LocationInLibrary = book.PositionInLibrary,
+                ImageUrl = book.ImageUrl,
+                BookTitle = book.Title,
+            };
+
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(int id, BookDetailsViewModel model)
+        public async Task<IActionResult> Delete(BookDetailsViewModel model)
         {
+            if (await bookService.ExistsAsync(model.Id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await bookService.HasAuthorWithIdAsync(model.Id, User.Id()) == false)
+            {
+                return Unauthorized();
+            }
+
+            await bookService.DeleteAsync(model.Id);
             return RedirectToAction(nameof(All));
         }
 

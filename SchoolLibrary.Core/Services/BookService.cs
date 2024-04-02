@@ -117,7 +117,7 @@ namespace SchoolLibrary.Core.Services
                     Genre = b.Genre.GenreName,
                     Description = b.Description,
                     ImageUrl = b.ImageUrl,
-                    Title = b.TakerId,
+                    Title = b.BookTitle,
                     Pages = b.BookPages
                 })
                 .FirstAsync();
@@ -142,6 +142,12 @@ namespace SchoolLibrary.Core.Services
 
             return book.Id;
 
+        }
+
+        public async Task DeleteAsync(int bookId)
+        {
+            await repository.DeleteAsync<Book>(bookId);
+            await repository.SaveChangesAsync();
         }
 
         public async Task EditAsync(int bookId, BookFormModel model)

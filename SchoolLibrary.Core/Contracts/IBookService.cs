@@ -32,5 +32,7 @@ namespace SchoolLibrary.Core.Contracts
 
         Task<BookFormModel?> GetBookFormModelByIdAsync(int id);
 
+        Task DeleteAsync(int bookId);
+
     }
 }
