@@ -1,11 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SchoolLibrary.Core.Contracts;
 using SchoolLibrary.Core.Models.Book;
+using SchoolLibrary.Extension;
 
 namespace SchoolLibrary.Controllers
 {
     public class BookController : Controller
     {
+        private readonly IBookService bookService;
+        private readonly IAuthorService authorService;
+
+        public BookController(IBookService _bookService, IAuthorService _authorService)
+        {
+            bookService = _bookService;
+            authorService = _authorService;
+
+        }
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> All()
@@ -27,15 +38,46 @@ namespace SchoolLibrary.Controllers
             return View(model);
         }
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return View();
+            if (await authorService.ExistByIdAsync(User.Id()) == false)
+            {
+                return RedirectToAction(nameof(AuthorController.BeAuthor), "Author");
+            }
+
+            var model = new BookFormModel()
+            {
+                Genres = await bookService.AllGenresAsync()
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         public async Task<IActionResult> Add(BookFormModel model)
         {
-            return RedirectToAction(nameof(Details), new { id= 1});
+            if (await authorService.ExistByIdAsync(User.Id()) == false)
+            {
+                return RedirectToAction(nameof(AuthorController.BeAuthor), "Author");
+            }
+
+            if (await bookService.GenreExistAsync(model.GenreId) == false)
+            {
+                ModelState.AddModelError(nameof(model.GenreId), "");
+            }
+
+            if (ModelState.IsValid == false)
+            { 
+                model.Genres = await bookService.AllGenresAsync();
+
+                return View(model);
+            }
+
+            int? authorId = await authorService.GetAuthorIdAsync(User.Id());
+
+            int newBookId = await bookService.CreateAsyc(model, authorId ?? 0);
+
+            return RedirectToAction(nameof(Details), new { id = newBookId });
         }
 
         [HttpGet]

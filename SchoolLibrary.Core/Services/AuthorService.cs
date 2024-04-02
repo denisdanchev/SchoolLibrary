@@ -31,6 +31,12 @@ namespace SchoolLibrary.Core.Services
                 .AnyAsync(a => a.UserId == userId);
         }
 
+        public async Task<int?> GetAuthorIdAsync(string userId)
+        {
+            return (await repository.AllReadOnly<Author>()
+                .FirstOrDefaultAsync(a => a.UserId == userId))?.Id;
+        }
+
         public async Task<bool> UserHasTakesAsync(string userId)
         {
             return await repository.AllReadOnly<Book>()
