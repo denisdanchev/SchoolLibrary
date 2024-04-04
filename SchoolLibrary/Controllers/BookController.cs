@@ -10,12 +10,15 @@ namespace SchoolLibrary.Controllers
     {
         private readonly IBookService bookService;
         private readonly IAuthorService authorService;
+        private readonly ILogger logger;
 
-        public BookController(IBookService _bookService, IAuthorService _authorService)
+        public BookController(IBookService _bookService,
+            IAuthorService _authorService,
+            ILogger<BookController> _logger)
         {
             bookService = _bookService;
             authorService = _authorService;
-
+            logger = _logger;
         }
         [AllowAnonymous]
         [HttpGet]
@@ -196,14 +199,45 @@ namespace SchoolLibrary.Controllers
         [HttpPost]
         public async Task<IActionResult> GetABook(int id)
         {
-            return RedirectToAction(nameof(Mine));
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+
+            if (await authorService.ExistByIdAsync(User.Id()))
+            {
+                return Unauthorized();
+            }
+
+            if (await bookService.IsTakedAsync(id))
+            {
+                return BadRequest();
+            }
+
+            await bookService.TakeAsync(id, User.Id());
+
+            return RedirectToAction(nameof(All));
         }
 
 
         [HttpPost]
         public async Task<IActionResult> TakeBackTheBook(int id)
         {
-            return RedirectToAction(nameof(Mine));
+            if (await bookService.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                await bookService.TakeBackAsync(id, User.Id());
+            }
+            catch (UnauthorizedAccessException uae)
+            {
+                logger.LogError(uae, "BookController/TakeBackAsync");
+                return Unauthorized();
+            }
+
+            return RedirectToAction(nameof(All));
         }
     }
 }

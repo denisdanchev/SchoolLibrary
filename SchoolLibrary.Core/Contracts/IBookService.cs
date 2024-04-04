@@ -34,5 +34,13 @@ namespace SchoolLibrary.Core.Contracts
 
         Task DeleteAsync(int bookId);
 
+        Task<bool> IsTakedAsync(int bookId);
+
+        Task<bool> IsTakedByUserWithIdAsync(int bookId, string userId);
+        Task TakeAsync(int bookId, string userId);
+
+        Task TakeBackAsync(int bookId, string userId);
+
+
     }
 }

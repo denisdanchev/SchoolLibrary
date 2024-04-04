@@ -163,7 +163,7 @@ namespace SchoolLibrary.Core.Services
                 book.BookTitle = model.Title;
                 book.BookPages = model.BookPages;
 
-                await repository.SaveChangesAsync(); 
+                await repository.SaveChangesAsync();
             }
         }
 
@@ -204,6 +204,62 @@ namespace SchoolLibrary.Core.Services
         {
             return await repository.AllReadOnly<Book>()
                 .AnyAsync(b => b.Id == bookId && b.Author.UserId == userId);
+        }
+
+        public async Task<bool> IsTakedAsync(int bookId)
+        {
+            bool result = false;
+
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null)
+            {
+                result = book.TakerId != null;
+            }
+
+            return result;
+        }
+
+        public async Task<bool> IsTakedByUserWithIdAsync(int bookId, string userId)
+        {
+            bool result = false;
+
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null)
+            {
+                result = book.TakerId == userId;
+            }
+
+            return result;
+
+        }
+
+        public async Task TakeAsync(int bookId, string userId)
+        {
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null)
+            {
+                book.TakerId = userId;
+                await repository.SaveChangesAsync();        
+            }
+             
+        }
+
+        public async Task TakeBackAsync(int bookId, string userId)
+        {
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null)
+            {
+                if (book.TakerId != userId)
+                {
+                    throw new UnauthorizedAccessException("The user does not take a book!");
+                }
+                book.TakerId = null;
+                await repository.SaveChangesAsync();
+            }
         }
     }
 }
