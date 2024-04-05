@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@inject IAuthorService authorService;
+@inject IBookService bookService;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,10 +30,12 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Mine">My Books</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
-                            </li>
-                            
+                            if (await authorService.ExistByIdAsync(User.Id()))
+                                           {
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
+                                </li>
+                            }
                         }
                     </ul>
                     <partial name="_LoginPartial" />

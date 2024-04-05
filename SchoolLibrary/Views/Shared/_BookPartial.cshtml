@@ -1,4 +1,6 @@
 ﻿@model BookServiceModel
+@inject IAuthorService authorService;
+@inject IBookService bookService;
 
 <div class="col-md-4">
     <div class="card mb-3">
@@ -14,19 +16,23 @@
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <a asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
-                   class="btn btn-warning">Edit</a>
-                <a asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id"
-                   class="btn btn-danger">Delete</a>
+                if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id()))
+                {
+                    <a asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Edit</a>
+                    <a asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id"
+                       class="btn btn-danger">Delete</a>
+                }
+                
                 <p></p>
-                @if (!Model.IsTaked)
+                @if (!Model.IsTaked && (await authorService.ExistByIdAsync(User.Id())) == false)
                 {
                     <form class="input-group-sm" asp-controller="Book"
                           asp-action="GetABook" asp-route-id="@Model.Id" method="post">
                         <input class="btn btn-primary" type="submit" value="Get" />
                     </form>
                 }
-                else
+                else if(await bookService.IsTakedByUserWithIdAsync(Model.Id,User.Id()))
                 {
                     <form asp-controller="Book" asp-action="TakeBackTheBook"
                           asp-route-id="@Model.Id" method="post">
