@@ -7,3 +7,31 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+
+<div class="mb-5"><div/>
+
+<div class="row">
+     <div class="col-12 text-center">
+          <button class="btn btn-primary" id="statistics-button"> Show statistics</button>
+     </div>
+</div>
+
+<div class="mt-4 p-5 bg-light d-none" id="statistics">
+    <div class="row">
+        <h2 class="col-md-2 text-center" id="total-books"></h2>
+        <h2 class="col-md-2 text-takes" id="total-takes"></h2>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        $('#statistics-button').on('click', ev => {
+            $.get('api/statistic', data =>{
+                $('#total-books').text(data.totalBooks + ' Books in our Library');
+                $('#total-takes').text(data.totalTakes + ' Taked Books');
+                $('#statistics').removeClass('d-none');
+                $('#statistics-button').hid();
+            })
+        })
+    </script>
+}
