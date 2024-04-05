@@ -15,6 +15,7 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
+builder.Services.AddScoped<IStatisticService, StatisticService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
@@ -34,7 +35,7 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseExceptionHandler("/Home/Error/500");
-    app.UseStatusCodePagesWithRedirects("/Home/Error?statusCode={0}");
+    app.UseStatusCodePagesWithReExecute("/Home/Error","?statusCode={0}");
     app.UseHsts();
 }
 
