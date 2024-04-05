@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualBasic;
 using SchoolLibrary.Core.Contracts;
+using SchoolLibrary.Core.Extensions;
 using SchoolLibrary.Core.Models.Book;
 using SchoolLibrary.Extension;
 
@@ -56,7 +58,7 @@ namespace SchoolLibrary.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, string information)
         {
             if (await bookService.ExistsAsync(id) == false)
             {
@@ -64,6 +66,12 @@ namespace SchoolLibrary.Controllers
             }
 
             var model = await bookService.BookDetailsByIdAsync(id);
+
+
+            if (information != model.GetInformation())
+            {
+                return BadRequest();
+            }
             return View(model);
         }
         [HttpGet]
@@ -106,7 +114,7 @@ namespace SchoolLibrary.Controllers
 
             int newBookId = await bookService.CreateAsyc(model, authorId ?? 0);
 
-            return RedirectToAction(nameof(Details), new { id = newBookId });
+            return RedirectToAction(nameof(Details), new { id = newBookId, Information = model.GetInformation() }) ;
         }
 
         [HttpGet]
@@ -150,7 +158,7 @@ namespace SchoolLibrary.Controllers
             }
             await bookService.EditAsync(id, model);
 
-            return RedirectToAction(nameof(Details), new { id});
+            return RedirectToAction(nameof(Details), new { id , information = model.GetInformation()});
 
         }
 

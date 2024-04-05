@@ -1,10 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using static SchoolLibrary.Infrastructure.Constants.DataConstants;
 using static SchoolLibrary.Core.Constants.MessageConstants;
+using SchoolLibrary.Core.Contracts;
+using static SchoolLibrary.Core.Contracts.IBookModel;
 
 namespace SchoolLibrary.Core.Models.Book
 {
-    public class BookServiceModel
+    public class BookServiceModel : IBookModel
     {
         public int Id { get; set; }
 

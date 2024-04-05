@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SchoolLibrary.Core.Contracts;
+using System.ComponentModel.DataAnnotations;
 using static SchoolLibrary.Core.Constants.MessageConstants;
 using static SchoolLibrary.Infrastructure.Constants.DataConstants;
 
 namespace SchoolLibrary.Core.Models.Book
 {
-    public class BookFormModel
+    public class BookFormModel : IBookModel
     {
         [Required(ErrorMessage = RequiredMessage)]
         [StringLength(BookTitleMaxLenght,

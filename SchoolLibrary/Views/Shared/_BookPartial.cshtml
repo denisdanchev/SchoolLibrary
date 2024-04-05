@@ -10,6 +10,7 @@
             <h6>(@(Model.IsTaked ? "Taked" : "Not Taked"))</h6>
             <br />
             <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
+            asp-route-information="@Model.GetInformation()"
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
