@@ -16,8 +16,14 @@
         public const int BookDescriptionMinLength = 10;
         public const int BookDescriptionMaxLength = 300;
 
-        public const int AuthorNameMinLenght = 3;
+        public const int AuthorNameMinLenght = 1;
         public const int AuthorNameMaxLenght = 50;
+
+        public const int UserFirstNameMinLenght = 1;
+        public const int UserFirstNameMaxLenght = 20;
+
+        public const int UserLastNameMinLenght = 1;
+        public const int UserLastNameMaxLenght = 25;
 
     }
 }

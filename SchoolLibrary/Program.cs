@@ -5,6 +5,7 @@ using SchoolLibrary.Core.Contracts;
 using SchoolLibrary.Core.Services;
 using SchoolLibrary.Infrastructure.Common;
 using SchoolLibrary.Infrastructure.Data;
+using SchoolLibrary.Infrastructure.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,7 +19,7 @@ builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options =>
+builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {
     options.SignIn.RequireConfirmedPhoneNumber = false;
     options.Password.RequireNonAlphanumeric = false;

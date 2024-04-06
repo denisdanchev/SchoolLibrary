@@ -5,7 +5,7 @@ using SchoolLibrary.Infrastructure.Data.SeedDb;
 
 namespace SchoolLibrary.Infrastructure.Data
 {
-    public class SchoolLibraryDbContext : IdentityDbContext
+    public class SchoolLibraryDbContext : IdentityDbContext<ApplicationUser>
     {
         public SchoolLibraryDbContext(DbContextOptions<SchoolLibraryDbContext> options)
             : base(options)
