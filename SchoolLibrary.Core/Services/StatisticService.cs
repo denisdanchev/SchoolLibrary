@@ -16,6 +16,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<StatisticServiceModel> TotalAsync()
         {
             int totalBooks = await repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved)
                 .CountAsync();
 
             int totalTakes = await repository.AllReadOnly<Book>()

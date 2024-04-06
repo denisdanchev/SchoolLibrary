@@ -24,7 +24,8 @@ namespace SchoolLibrary.Core.Services
             int booksPerPage = 1
             )
         {
-            var booksToShow = repository.AllReadOnly<Book>();
+            var booksToShow = repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved);
 
             if (genre != null)
             {
@@ -69,6 +70,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<IEnumerable<BookServiceModel>> AllBooksByAuthorId(int authorId)
         {
             return await repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved)
                 .Where(b => b.AuthorId == authorId)
                 .ProjectToBookServiceModel()
                 .ToListAsync();
@@ -77,6 +79,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<IEnumerable<BookServiceModel>> AllBooksByUserId(string userId)
         {
             return await repository.AllReadOnly<Book>()
+                  .Where(b => b.IsApproved)
                   .Where(b => b.TakerId == userId)
                   .ProjectToBookServiceModel()
                   .ToListAsync();
@@ -104,6 +107,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved)
                 .Where(b => b.Id == id)
                 .Select(b => new BookDetailsServiceModel()
                 {
@@ -183,6 +187,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<BookFormModel?> GetBookFormModelByIdAsync(int id)
         {
             var book = await repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved)
                 .Where(b => b.Id == id)
                 .Select(b => new BookFormModel()
                 {

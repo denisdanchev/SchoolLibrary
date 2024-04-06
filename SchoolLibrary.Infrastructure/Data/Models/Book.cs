@@ -52,6 +52,8 @@ namespace SchoolLibrary.Infrastructure.Data.Models
         [Comment("Book taker identifier")]
         public string? TakerId { get; set; } = string.Empty;
 
+        [Comment("Is book approved by admin")]
+        public bool IsApproved { get; set; }
 
     }
 }
