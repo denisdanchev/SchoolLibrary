@@ -125,7 +125,8 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false &&
+                User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -141,7 +142,8 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false &&
+                User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -170,7 +172,8 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false)
+            if (await bookService.HasAuthorWithIdAsync(id, User.Id()) == false && 
+                User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -195,7 +198,8 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await bookService.HasAuthorWithIdAsync(model.Id, User.Id()) == false)
+            if (await bookService.HasAuthorWithIdAsync(model.Id, User.Id()) == false &&
+                User.IsAdmin() == false)
             {
                 return Unauthorized();
             }
@@ -212,7 +216,8 @@ namespace SchoolLibrary.Controllers
                 return BadRequest();
             }
 
-            if (await authorService.ExistByIdAsync(User.Id()))
+            if (await authorService.ExistByIdAsync(User.Id()) &&
+                User.IsAdmin() == false)
             {
                 return Unauthorized();
             }

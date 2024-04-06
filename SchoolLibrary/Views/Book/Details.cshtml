@@ -24,14 +24,14 @@
             <div class="form-inline">
                 @if (this.User.Identity.IsAuthenticated)
                 {
-                    if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id()))
+                    if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id()) || User.IsAdmin())
                     { <a class="btn btn-warning" asp-controller="Book" asp-action="Edit"
                            asp-route-id="@Model.Id">Edit</a>
                         <a class="ml-2 btn btn-danger" asp-controller="Book" asp-action="Delete"
                         asp-route-id="@Model.Id">Delete</a>
                     }
 
-                    @if (!Model.IsTaked && (await authorService.ExistByIdAsync(User.Id())) == false)
+                    @if (!Model.IsTaked && ((await authorService.ExistByIdAsync(User.Id())) == false || User.IsAdmin()))
                         {
                         <form class="ml-2" asp-controller="Book"
                               asp-action="GetABook" asp-route-id="@Model.Id" method="post">

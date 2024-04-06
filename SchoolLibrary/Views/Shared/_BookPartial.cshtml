@@ -16,7 +16,8 @@
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id()))
+                if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id())
+                || User.IsAdmin())
                 {
                     <a asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
                        class="btn btn-warning">Edit</a>
@@ -25,7 +26,8 @@
                 }
                 
                 <p></p>
-                @if (!Model.IsTaked && (await authorService.ExistByIdAsync(User.Id())) == false)
+                @if (!Model.IsTaked && ((await authorService.ExistByIdAsync(User.Id())) == false ||
+                User.IsAdmin()))
                 {
                     <form class="input-group-sm" asp-controller="Book"
                           asp-action="GetABook" asp-route-id="@Model.Id" method="post">
