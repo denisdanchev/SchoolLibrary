@@ -11,7 +11,7 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
         {
             var data = new SeedData();
 
-            builder.HasData(new ApplicationUser[] { data.AuthorUser, data.GuestUser} );
+            builder.HasData(new ApplicationUser[] { data.AuthorUser, data.GuestUser, data.AdminUser} );
         }
     }
 }

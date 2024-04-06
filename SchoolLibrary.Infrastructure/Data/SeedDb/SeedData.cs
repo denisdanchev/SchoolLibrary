@@ -9,8 +9,11 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
 
         public ApplicationUser AuthorUser { get; set; }
         public ApplicationUser GuestUser { get; set; }
+        public ApplicationUser AdminUser { get; set; }
 
         public Author Author { get; set; }
+        public Author AdminAuthor { get; set; }
+
 
         public Genre FantasyGenre { get; set; }
         public Genre HorrorGenre { get; set; }
@@ -40,7 +43,9 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
                 UserName = "author@mail.com",
                 NormalizedUserName = "author@mail.com",
                 Email = "author@mail.com",
-                NormalizedEmail = "author@mail.com"
+                NormalizedEmail = "author@mail.com",
+                FirstName = "Agent",
+                LastName = "Agentov"
             };
 
             AuthorUser.PasswordHash =
@@ -52,12 +57,29 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
                 UserName = "guest@mail.com",
                 NormalizedUserName = "guest@mail.com",
                 Email = "guest@mail.com",
-                NormalizedEmail = "guest@mail.com"
+                NormalizedEmail = "guest@mail.com",
+                FirstName = "Guest",
+                LastName = "Guestov"
             };
 
             GuestUser.PasswordHash =
             hasher.HashPassword(AuthorUser, "guest123");
+
+            AdminUser = new ApplicationUser()
+            {
+                Id = "82223eb9-3921-461a-8942-40a04734d0f4",
+                UserName = "admin@mail.com",
+                NormalizedUserName = "ADMIN@MAIL.COM",
+                Email = "admin@mail.com",
+                NormalizedEmail = "ADMIN@MAIL.COM",
+                FirstName = "Great",
+                LastName = "Admin"
+            };
+
+            GuestUser.PasswordHash =
+            hasher.HashPassword(AdminUser, "admin123");
         }
+    
 
         private void SeedAuthor()
         {
@@ -66,6 +88,12 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
                 Id = 1,
                 AuthorName = "Bram Stoker",
                 UserId = AuthorUser.Id
+            };
+            AdminAuthor = new Author()
+            {
+                Id = 3,
+                AuthorName = "Stone Heck",
+                UserId = AdminUser.Id
             };
         }
 

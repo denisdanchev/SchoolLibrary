@@ -10,7 +10,7 @@ namespace SchoolLibrary.Infrastructure.Data.SeedDb
         {
             var data = new SeedData();
 
-            builder.HasData(new Author[] {data.Author });
+            builder.HasData(new Author[] {data.Author, data.AdminAuthor });
         }
     }
 }
