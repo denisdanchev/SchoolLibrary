@@ -111,6 +111,7 @@ namespace SchoolLibrary.Core.Services
                     PositionInLibrary = b.PositionInLibrary,
                     Author = new Models.Author.AuthorServiceModel()
                     {
+                        FullName = $"{b.Author.User.FirstName} {b.Author.User.LastName}",
                         Email = b.Author.User.Email,
                         AuthorName = b.Author.AuthorName
                     },
