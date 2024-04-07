@@ -15,5 +15,7 @@ namespace SchoolLibrary.Infrastructure.Data.Models
         [MaxLength(UserLastNameMaxLenght)]
         [PersonalData]
         public string LastName { get; set; } = string.Empty;
+
+        public Author? Author { get; set; }
     }
 }

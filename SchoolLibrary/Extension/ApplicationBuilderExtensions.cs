@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SchoolLibrary.Infrastructure.Data.Models;
-using static SchoolLibrary.Core.Constants.RoleConstants;
+using static SchoolLibrary.Core.Constants.AdministratorConstants;
 
 namespace Microsoft.AspNetCore.Builder
 {

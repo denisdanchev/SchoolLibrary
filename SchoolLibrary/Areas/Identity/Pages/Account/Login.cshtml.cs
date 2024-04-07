@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SchoolLibrary.Infrastructure.Data.Models;
 using System.ComponentModel.DataAnnotations;
-using static SchoolLibrary.Core.Constants.RoleConstants;
+using static SchoolLibrary.Core.Constants.AdministratorConstants;
 
 namespace SchoolLibrary.Areas.Identity.Pages.Account
 {

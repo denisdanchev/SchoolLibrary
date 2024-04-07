@@ -45,6 +45,10 @@ namespace SchoolLibrary.Controllers
             var userId = User.Id();
             IEnumerable<BookServiceModel> model;
 
+            if (User.IsAdmin())
+            {
+                return RedirectToAction("Mine","Book", new { area = "Admin" });
+            }
             if (await authorService.ExistByIdAsync(userId))
             {
                 int authorId = await authorService.GetAuthorIdAsync(userId) ?? 0;

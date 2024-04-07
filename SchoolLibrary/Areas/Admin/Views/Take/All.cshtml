@@ -1,0 +1,26 @@
+﻿@model IEnumerable<TakeServiceModel>
+
+@{
+    ViewBag.Title = "All Takes";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="row">
+    @foreach (var take in Model)
+    {
+        <div class="card mb-3 col-4">
+            <img class="card-img-top" src="@take.BookImageUrl" alt="Book Image">
+            <div class="card-body text-center">
+                <h4>@take.BookTitle</h4>
+                <h6>Author: <b>@take.AuthorFullName (@take.AuthorEmail)</b></h6>
+                <h6>Taked By: @if (take.TakerEmail != string.Empty)
+                    {
+                        <b>@take.TakerFullName (@take.TakerEmail)</b>
+                    }
+                </h6>
+            </div>
+        </div>
+    }
+</div>

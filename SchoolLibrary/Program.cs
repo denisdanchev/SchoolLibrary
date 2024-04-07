@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SchoolLibrary.Core.Contracts;
+using SchoolLibrary.Core.Models.Statistics;
 using SchoolLibrary.Core.Services;
 using SchoolLibrary.Infrastructure.Common;
 using SchoolLibrary.Infrastructure.Data;
@@ -19,6 +20,9 @@ builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IAuthorService, AuthorService>();
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IStatisticService, StatisticService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITakeService, TakeService>();
+
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 {

@@ -20,6 +20,7 @@ namespace SchoolLibrary.Infrastructure.Data.Models
         public string AuthorName { get; set; } = string.Empty;
 
         [Comment("User identifier")]
+
         public string UserId { get; set; } = string.Empty;
 
         [ForeignKey(nameof(UserId))]

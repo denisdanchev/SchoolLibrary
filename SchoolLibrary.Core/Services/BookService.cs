@@ -104,6 +104,18 @@ namespace SchoolLibrary.Core.Services
                 .ToListAsync();
         }
 
+        public async Task ApproveBookAsync(int bookId)
+        {
+            var book = await repository.GetByIdAsync<Book>(bookId);
+
+            if (book != null && book.IsApproved == false)
+            {
+                book.IsApproved = true;
+
+                await repository.SaveChangesAsync();
+            }
+        }
+
         public async Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Book>()
@@ -204,6 +216,20 @@ namespace SchoolLibrary.Core.Services
                 book.Genres = await AllGenresAsync();
             }
             return book;
+        }
+
+        public async Task<IEnumerable<BookServiceModel>> GetUnApprovedAsync()
+        {
+            return await repository.AllReadOnly<Book>()
+                .Where(b => b.IsApproved == false)
+                .Select( b => new BookServiceModel()
+                { 
+                    Id = b.Id,
+                    ImageUrl = b.ImageUrl,
+                    PositionInLibrary = b.PositionInLibrary,
+                    Title = b.BookTitle,
+                })
+                .ToListAsync();
         }
 
         public async Task<bool> HasAuthorWithIdAsync(int bookId, string userId)

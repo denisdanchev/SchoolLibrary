@@ -1,0 +1,20 @@
+﻿@model BookServiceModel
+@inject IAuthorService authorService;
+@inject IBookService bookService;
+
+<div class="col-md-4">
+    <div class="card mb-3">
+        <img class="card-img-top" src="@Model.ImageUrl" alt="Book Image">
+        <div class="card-body text-center">
+            <h4>@Model.Title</h4>
+            <h6>Position in bookshelf: <b>@Model.PositionInLibrary</b></h6>
+            <h6>Pages: <b>@Model.Pages</b></h6>
+            <br />
+
+            <form class="input-group-sm" asp-controller="Book"
+                  asp-area="Admin" asp-action="Approve" asp-route-bookId="@Model.Id" method="post">
+                <input class="btn btn-success" type="submit" value="Approve" />
+            </form>
+        </div>
+    </div>
+</div>

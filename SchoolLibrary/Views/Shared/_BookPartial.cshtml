@@ -11,7 +11,7 @@
             <h6>Pages: <b>@Model.Pages</b></h6>
             <h6>(@(Model.IsTaked ? "Taked" : "Not Taked"))</h6>
             <br />
-            <a asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
+            <a asp-area="" asp-controller="Book" asp-action="Details" asp-route-id="@Model.Id"
             asp-route-information="@Model.GetInformation()"
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
@@ -19,9 +19,9 @@
                 if (await bookService.HasAuthorWithIdAsync(Model.Id, User.Id())
                 || User.IsAdmin())
                 {
-                    <a asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
+                    <a asp-area="" asp-controller="Book" asp-action="Edit" asp-route-id="@Model.Id"
                        class="btn btn-warning">Edit</a>
-                    <a asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id"
+                    <a asp-area="" asp-controller="Book" asp-action="Delete" asp-route-id="@Model.Id"
                        class="btn btn-danger">Delete</a>
                 }
                 
@@ -30,13 +30,13 @@
                 User.IsAdmin()))
                 {
                     <form class="input-group-sm" asp-controller="Book"
-                          asp-action="GetABook" asp-route-id="@Model.Id" method="post">
+                          asp-area="" asp-action="GetABook" asp-route-id="@Model.Id" method="post">
                         <input class="btn btn-primary" type="submit" value="Get" />
                     </form>
                 }
                 else if(await bookService.IsTakedByUserWithIdAsync(Model.Id,User.Id()))
                 {
-                    <form asp-controller="Book" asp-action="TakeBackTheBook"
+                    <form asp-area="" asp-controller="Book" asp-action="TakeBackTheBook"
                           asp-route-id="@Model.Id" method="post">
                         <input class="btn btn-primary" type="submit" value="Take back" />
                     </form>

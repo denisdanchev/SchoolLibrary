@@ -40,6 +40,8 @@ namespace SchoolLibrary.Core.Contracts
         Task TakeAsync(int bookId, string userId);
 
         Task TakeBackAsync(int bookId, string userId);
+        Task ApproveBookAsync(int bookdId);
+        Task<IEnumerable<BookServiceModel>> GetUnApprovedAsync();
 
 
     }

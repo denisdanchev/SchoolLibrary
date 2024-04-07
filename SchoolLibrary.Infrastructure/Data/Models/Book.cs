@@ -55,5 +55,8 @@ namespace SchoolLibrary.Infrastructure.Data.Models
         [Comment("Is book approved by admin")]
         public bool IsApproved { get; set; }
 
+        [ForeignKey(nameof(TakerId))]
+        public ApplicationUser? Taker { get; set; }
+
     }
 }

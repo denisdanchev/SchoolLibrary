@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using static SchoolLibrary.Core.Constants.RoleConstants;
+using static SchoolLibrary.Core.Constants.AdministratorConstants;
 namespace SchoolLibrary.Extension
 {
     public static class ClaimsPrincipalExtensions
