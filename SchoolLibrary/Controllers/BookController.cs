@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualBasic;
+using SchoolLibrary.Core.Constants;
 using SchoolLibrary.Core.Contracts;
 using SchoolLibrary.Core.Extensions;
 using SchoolLibrary.Core.Models.Book;
@@ -232,6 +233,8 @@ namespace SchoolLibrary.Controllers
             }
 
             await bookService.TakeAsync(id, User.Id());
+
+            TempData[MessageConstants.UserMessageSuccess] = "You have take the book";
 
             return RedirectToAction(nameof(All));
         }

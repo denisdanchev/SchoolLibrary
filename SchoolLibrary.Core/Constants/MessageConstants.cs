@@ -8,5 +8,8 @@
 
         public const string AuthroNameExists = "Author name already exist";
         public const string HasTakes = "You should have no teaked books to be an author!";
+
+        public const string UserMessageSuccess = "UserMessageSuccess";
+        public const string UserMessageError = "UserMessageError";
     }
 }
