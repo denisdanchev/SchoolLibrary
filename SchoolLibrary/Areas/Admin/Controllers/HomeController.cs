@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SchoolLibrary.Areas.Admin.Controllers
 {
     public class HomeController : AdminBaseController
     {
+        [Authorize(Roles = "Administrator")]
         public IActionResult Dashboard()
         {
             return View();

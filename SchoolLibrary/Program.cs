@@ -30,6 +30,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
     options.Password.RequireNonAlphanumeric = false;
 })
     .AddRoles<IdentityRole>()
+    .AddDefaultUI()
+    .AddDefaultTokenProviders()
     .AddEntityFrameworkStores<SchoolLibraryDbContext>();
 builder.Services.AddControllersWithViews(options => 
 {
@@ -77,5 +79,6 @@ app.UseEndpoints(endpoints =>
 });
 
 await app.CreateAdminRoleAsync();
+
 
 await app.RunAsync();
