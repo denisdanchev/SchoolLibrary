@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Core.Types;
 using SchoolLibrary.Core.Contracts;
 using SchoolLibrary.Core.Models.Administrator;
 using SchoolLibrary.Extension;
+using SchoolLibrary.Infrastructure.Common;
 
 namespace SchoolLibrary.Areas.Admin.Controllers
 {
@@ -10,7 +12,8 @@ namespace SchoolLibrary.Areas.Admin.Controllers
         private readonly IBookService bookService;
         private readonly IAuthorService authorService;
 
-        public BookController(IBookService _bookService, IAuthorService _authorService)
+        public BookController(IBookService _bookService, 
+            IAuthorService _authorService)
         {
             bookService = _bookService;
             authorService = _authorService;
@@ -42,7 +45,20 @@ namespace SchoolLibrary.Areas.Admin.Controllers
             await bookService.ApproveBookAsync(bookId);
 
             return RedirectToAction(nameof(Approve));
+        }
 
+        public async Task<IActionResult> DeleteBook(int bookId)
+        {
+            var book = await bookService.BookDetailsByIdAsync(bookId);
+
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            await bookService.DeleteAsync(bookId);
+
+            return RedirectToAction(nameof(Approve));
         }
     }
 }
