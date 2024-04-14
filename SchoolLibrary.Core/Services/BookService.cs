@@ -229,6 +229,7 @@ namespace SchoolLibrary.Core.Services
                     ImageUrl = b.ImageUrl,
                     PositionInLibrary = b.PositionInLibrary,
                     Title = b.BookTitle,
+                    Pages = b.BookPages
                 })
                 .ToListAsync();
         }
