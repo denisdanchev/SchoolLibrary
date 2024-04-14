@@ -21,9 +21,11 @@ namespace SchoolLibrary.Core.Contracts
         Task<IEnumerable<string>> AllGenresNamesAsync();
 
         Task<IEnumerable<BookServiceModel>> AllBooksByAuthorId(int authorId);
+
         Task<IEnumerable<BookServiceModel>> AllBooksByUserId(string userId);
 
         Task<bool> ExistsAsync(int id);
+
         Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id);
 
         Task EditAsync(int bookId, BookFormModel model);
@@ -37,11 +39,15 @@ namespace SchoolLibrary.Core.Contracts
         Task<bool> IsTakedAsync(int bookId);
 
         Task<bool> IsTakedByUserWithIdAsync(int bookId, string userId);
+
         Task TakeAsync(int bookId, string userId);
 
         Task TakeBackAsync(int bookId, string userId);
+
         Task ApproveBookAsync(int bookdId);
+
         Task<IEnumerable<BookServiceModel>> GetUnApprovedAsync();
+
 
 
     }

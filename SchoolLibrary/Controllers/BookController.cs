@@ -72,7 +72,6 @@ namespace SchoolLibrary.Controllers
 
             var model = await bookService.BookDetailsByIdAsync(id);
 
-
             if (information != model.GetInformation())
             {
                 return BadRequest();

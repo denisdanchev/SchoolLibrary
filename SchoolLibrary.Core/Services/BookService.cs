@@ -119,7 +119,7 @@ namespace SchoolLibrary.Core.Services
         public async Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Book>()
-                .Where(b => b.IsApproved)
+                //.Where(b => b.IsApproved)
                 .Where(b => b.Id == id)
                 .Select(b => new BookDetailsServiceModel()
                 {
@@ -151,7 +151,8 @@ namespace SchoolLibrary.Core.Services
                 Description = model.Description,
                 GenreId = model.GenreId,
                 AuthorId = authorId,
-                TakerId = null
+                TakerId = null,
+                IsApproved = false,
             };
 
             await repository.AddAsync(book);
