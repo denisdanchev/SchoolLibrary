@@ -37,9 +37,13 @@
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Book" asp-action="Add">Add Book</a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
-                                </li>
+                                if (Context.User.IsInRole("Administrator"))
+                                {
+                                    <li class="nav-item">
+                                        <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Dashboard">Dashboard</a>
+                                    </li>
+                                }
+                                
                             }
                         }
                     </ul>
