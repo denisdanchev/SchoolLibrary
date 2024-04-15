@@ -64,7 +64,7 @@
            asp-controller="Book"
            asp-action="All"
            asp-route-currentPage="@previousPage"
-           asp-route-category="@Model.Genre"
+           asp-route-genre="@Model.Genre"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-sorting="@((int)Model.Sorting)"><<</a>
     </div>
@@ -80,7 +80,7 @@
            asp-controller="Book"
            asp-action="All"
            asp-route-currentPage="@(Model.CurentPage + 1)"
-           asp-route-category="@Model.Genres"
+           asp-route-genre="@Model.Genre"
            asp-route-searchTerm="@Model.SearchTerm"
            asp-route-sorting="@((int)Model.Sorting)">>></a>
     </div>

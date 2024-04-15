@@ -5,7 +5,7 @@ namespace SchoolLibrary.Core.Models.Book
 {
     public class AllBooksQueryModel
     {
-        public int BooksPerPage { get; } = 3;
+        public int BooksPerPage { get; } = 6;
 
         public string Genre { get; init; } = null!;
 

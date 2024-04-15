@@ -18,7 +18,7 @@ namespace SchoolLibrary.Core.Services
 
         public async Task<BookQueryServiceModel> AllAsync(
             string? genre = null,
-            string? searchedTerm = null,
+            string? searchTerm = null,
             BookSorting sorting = BookSorting.Newest,
             int currentPage = 1,
             int booksPerPage = 1
@@ -32,9 +32,9 @@ namespace SchoolLibrary.Core.Services
                 booksToShow = booksToShow.Where(b => b.Genre.GenreName == genre);
             }
 
-            if (searchedTerm != null)
+            if (searchTerm != null)
             {
-                string normalizedSearchedTerm = searchedTerm.ToLower();
+                string normalizedSearchedTerm = searchTerm.ToLower();
                 booksToShow = booksToShow
                     .Where(b => (b.BookTitle.ToLower().Contains(normalizedSearchedTerm) ||
                                  b.PositionInLibrary.ToLower().Contains(normalizedSearchedTerm) ||
@@ -119,7 +119,6 @@ namespace SchoolLibrary.Core.Services
         public async Task<BookDetailsServiceModel> BookDetailsByIdAsync(int id)
         {
             return await repository.AllReadOnly<Book>()
-                //.Where(b => b.IsApproved)
                 .Where(b => b.Id == id)
                 .Select(b => new BookDetailsServiceModel()
                 {
