@@ -50,7 +50,7 @@ namespace SchoolLibrary.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteBook(int bookId)
         {
             var book = await bookService.BookDetailsByIdAsync(bookId);
-
+            
             if (book == null)
             {
                 return BadRequest();

@@ -5,7 +5,7 @@ using static SchoolLibrary.Core.Constants.AdministratorConstants;
 namespace SchoolLibrary.Areas.Admin.Controllers
 {
     [Area(AdminAreaName)]
-    [Authorize(Roles = AdminRole)]
+    [Authorize(Roles = "Administrator")]
     public class AdminBaseController : Controller
     {
     }
